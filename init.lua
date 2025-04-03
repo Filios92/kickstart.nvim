@@ -88,6 +88,18 @@ vim.opt.cursorline = true
 -- vim.api.nvim_set_keymap('n', 'j', "v:count ? 'j' : 'gj'", { noremap = false, silent = true, expr = true })
 -- vim.api.nvim_set_keymap('n', 'k', "v:count ? 'k' : 'gk'", { noremap = false, silent = true, expr = true })
 
+vim.keymap.set('v', '<tab>', '>gv', { silent = true, noremap = true })
+vim.keymap.set('v', '<S-tab>', '<gv', { silent = true, noremap = true })
+
+local function delete_to_black_hole(cmds)
+  for _, cmd in pairs(cmds) do
+    vim.keymap.set({ 'n', 'v' }, cmd, '"_' .. cmd, { silent = true, noremap = true })
+  end
+end
+delete_to_black_hole { 'd', 'c', 'C', 'x', 'X' }
+-- map D to d
+vim.keymap.set({ 'n', 'v' }, 'D', 'd', { silent = true, noremap = true })
+
 if vim.g.vscode then
   local vscode = require 'vscode'
 
