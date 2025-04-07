@@ -96,9 +96,9 @@ local function delete_to_black_hole(cmds)
     vim.keymap.set({ 'n', 'v' }, cmd, '"_' .. cmd, { silent = true, noremap = true })
   end
 end
-delete_to_black_hole { 'd', 'c', 'C', 'x', 'X' }
+delete_to_black_hole { 'c', 'C', 'x', 'X' }
 -- map D to d
-vim.keymap.set({ 'n', 'v' }, 'D', 'd', { silent = true, noremap = true })
+-- vim.keymap.set({ 'n', 'v' }, 'D', 'd', { silent = true, noremap = true })
 
 if vim.g.vscode then
   local vscode = require 'vscode'
@@ -671,7 +671,7 @@ require('lazy').setup({
       local servers = {
         clangd = {},
         -- gopls = {},
-        -- pyright = {},
+        pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
