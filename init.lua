@@ -125,6 +125,8 @@ delete_to_black_hole { 'c', 'C', 'x', 'X' }
 if vim.g.vscode then
   local vscode = require 'vscode'
 
+  vim.g.clipboard = vim.g.vscode_clipboard
+
   local function vscmap(mode, lhs, rhs)
     vim.keymap.set(mode, lhs, function()
       vscode.call(rhs)
@@ -147,7 +149,10 @@ if vim.g.vscode then
   --
   vscmap({ 'n', 'v' }, '<leader>fs', 'editor.action.formatSelection')
   vscmap({ 'n', 'v' }, '<leader>fd', 'editor.action.formatDocument')
-  vscmap('n', '<leader>gl', 'git-graph.view')
+  vscmap('n', '<leader>gl', 'gitlens.showGraphPage')
+  vscmap('n', '<leader>gg', 'workbench.scm.focus')
+  vscmap('n', '<leader>e', 'workbench.view.explorer')
+  vscmap('n', '<leader><space>', 'workbench.action.showAllEditors')
   vscmap({ 'n', 'v' }, '<leader>d', 'editor.action.showHover')
   vscmap({ 'n', 'v' }, 'gr', 'editor.action.referenceSearch.trigger')
 
