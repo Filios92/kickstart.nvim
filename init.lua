@@ -194,12 +194,17 @@ else
   vim.keymap.set('n', '<A-down>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
   vim.keymap.set('n', '<A-up>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+  vim.keymap.set('n', '<C-A-right>', '<C-w>v', { desc = 'Split right' })
+  vim.keymap.set('n', '<C-A-down>', '<C-w><C-S>', { desc = 'Split below' })
+
   -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
   -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
   -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
   -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
   -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
+  vim.keymap.set('n', '<A-->', '<C-o>', { desc = 'Go back' })
+  vim.keymap.set('n', '<A-=>', '<C-i>', { desc = 'Go forward' })
 end
 
 -- Clear highlights on search when pressing <Esc> in normal mode
@@ -438,11 +443,12 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
+        defaults = {
+          path_display = { 'filename_first' },
+          -- mappings = {
+          --   i = { ['<c-enter>'] = 'to_fuzzy_refine' },
+          -- },
+        },
         -- pickers = {}
         extensions = {
           ['ui-select'] = {
@@ -1050,7 +1056,8 @@ require('lazy').setup({
     'folke/snacks.nvim',
     priority = 1000,
     lazy = false,
-    cond = false, --not vim.g.vscode,
+    -- cond = false, --not vim.g.vscode,
+    cond = not vim.g.vscode,
     ---@type snacks.Config
     opts = {
       -- your configuration comes here
@@ -1099,6 +1106,24 @@ require('lazy').setup({
         end,
         desc = 'Lazygit',
       },
+    },
+  },
+  {
+    'f-person/git-blame.nvim',
+    event = 'VeryLazy',
+    cond = not vim.g.vscode,
+    opts = {
+      -- your configuration comes here
+      -- for example
+      enabled = true, -- if you want to enable the plugin
+      message_template = ' <author> • <date> • <summary>', -- template for the blame message, check the Message template section for more options
+      -- date_format = '%m-%d-%Y %H:%M:%S', -- template for the date, check Date format section for more options
+      date_format = '%r', -- template for the date, check Date format section for more options
+      virtual_text_column = 1, -- virtual text start column, check Start virtual text at column section for more options
+      schedule_event = 'CursorHold',
+      clear_event = 'CursorHoldI',
+      max_commit_summary_length = 50,
+      delay = 500,
     },
   },
 }, {
