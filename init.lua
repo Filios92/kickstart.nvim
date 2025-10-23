@@ -146,8 +146,8 @@ if vim.g.vscode then
   vscmap('n', 'zO', 'editor.unfoldRecursively')
   vscmap('n', 'za', 'editor.toggleFold')
 
-  vscmap({ 'n', 'v' }, 'u', 'undo')
-  vscmap({ 'n', 'v' }, '<C-r>', 'redo')
+  -- vscmap({ 'n', 'v' }, 'u', 'undo')
+  -- vscmap({ 'n', 'v' }, '<c-r>', 'redo')
   --
   --
   --
@@ -159,6 +159,7 @@ if vim.g.vscode then
   vscmap('n', '<leader><space>', 'workbench.action.showAllEditors')
   vscmap({ 'n', 'v' }, '<leader>d', 'editor.action.showHover')
   vscmap({ 'n', 'v' }, 'gr', 'editor.action.referenceSearch.trigger')
+  vscmap('n', 'gW', 'workbench.action.showAllSymbols')
 
   vim.keymap.set({ 'n', 'x', 'i' }, '<C-d>', function()
     require('vscode-multi-cursor').addSelectionToNextFindMatch()
