@@ -73,9 +73,12 @@ end
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.o.clipboard = 'unnamedplus'
-end)
+-- vim.schedule(function()
+--   vim.o.clipboard = 'unnamedplus'
+-- end)
+vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { silent = true, noremap = true })
+vim.keymap.set({ 'n', 'v' }, '<leader>Y', '<cmd>let @+=@"<cr>', { silent = true, noremap = true })
+vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p', { silent = true, noremap = true })
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -116,6 +119,8 @@ vim.o.cursorline = true
 
 vim.keymap.set('v', '<tab>', '>gv', { silent = true, noremap = true })
 vim.keymap.set('v', '<S-tab>', '<gv', { silent = true, noremap = true })
+vim.keymap.set('v', '>', '>gv', { silent = true, noremap = true })
+vim.keymap.set('v', '<', '<gv', { silent = true, noremap = true })
 
 local function delete_to_black_hole(cmds)
   for _, cmd in pairs(cmds) do
@@ -125,6 +130,7 @@ end
 delete_to_black_hole { 'c', 'C', 'x', 'X' }
 -- map D to d
 -- vim.keymap.set({ 'n', 'v' }, 'D', 'd', { silent = true, noremap = true })
+vim.keymap.set('v', 'p', '"_dP', { silent = true, noremap = true })
 
 if vim.g.vscode then
   local vscode = require 'vscode'
@@ -186,10 +192,10 @@ else
   --  Use CTRL+<hjkl> to switch between windows
   --
   --  See `:help wincmd` for a list of all window commands
-  -- vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-  -- vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-  -- vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-  -- vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+  vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
+  vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
+  vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+  vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
   vim.keymap.set('n', '<A-left>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
   vim.keymap.set('n', '<A-right>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
   vim.keymap.set('n', '<A-down>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
@@ -937,9 +943,13 @@ require('lazy').setup({
     config = function()
       ---@diagnostic disable-next-line: missing-fields
       require('tokyonight').setup {
+        transparent = true,
         styles = {
-          comments = { italic = false }, -- Disable italics in comments
+          comments = { italic = true },
+          -- sidebars = 'transparent',
+          -- floats = 'transparent',
         },
+        dim_inactive = true,
       }
 
       -- Load the colorscheme here.
@@ -974,6 +984,8 @@ require('lazy').setup({
       --  You could remove this setup call if you don't like it,
       --  and try some other statusline plugin
       if not vim.g.vscode then
+        require('mini.sessions').setup { autoread = true, autowrite = true }
+
         local statusline = require 'mini.statusline'
         -- set use_icons to true if you have a Nerd Font
         statusline.setup { use_icons = vim.g.have_nerd_font }
@@ -1125,6 +1137,25 @@ require('lazy').setup({
       clear_event = 'CursorHoldI',
       max_commit_summary_length = 50,
       delay = 500,
+    },
+  },
+  {
+    'christoomey/vim-tmux-navigator',
+    cond = not vim.g.vscode,
+    cmd = {
+      'TmuxNavigateLeft',
+      'TmuxNavigateDown',
+      'TmuxNavigateUp',
+      'TmuxNavigateRight',
+      'TmuxNavigatePrevious',
+      'TmuxNavigatorProcessList',
+    },
+    keys = {
+      { '<c-h>', '<cmd><C-U>TmuxNavigateLeft<cr>' },
+      { '<c-j>', '<cmd><C-U>TmuxNavigateDown<cr>' },
+      { '<c-k>', '<cmd><C-U>TmuxNavigateUp<cr>' },
+      { '<c-l>', '<cmd><C-U>TmuxNavigateRight<cr>' },
+      { '<c-\\>', '<cmd><C-U>TmuxNavigatePrevious<cr>' },
     },
   },
 }, {
