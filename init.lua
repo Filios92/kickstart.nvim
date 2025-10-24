@@ -79,6 +79,7 @@ end
 vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { silent = true, noremap = true })
 vim.keymap.set({ 'n', 'v' }, '<leader>Y', '<cmd>let @+=@"<cr>', { silent = true, noremap = true })
 vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p', { silent = true, noremap = true })
+vim.keymap.set({ 'n', 'v' }, '<leader>P', '<cmd>let @"=@+<cr>', { silent = true, noremap = true })
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -166,6 +167,7 @@ if vim.g.vscode then
   vscmap({ 'n', 'v' }, '<leader>d', 'editor.action.showHover')
   vscmap({ 'n', 'v' }, 'gr', 'editor.action.referenceSearch.trigger')
   vscmap('n', 'gW', 'workbench.action.showAllSymbols')
+  vscmap('n', '<leader>sf', 'workbench.action.quickOpen', { desc = '[S]earch [F]iles' })
 
   vim.keymap.set({ 'n', 'x', 'i' }, '<C-d>', function()
     require('vscode-multi-cursor').addSelectionToNextFindMatch()
