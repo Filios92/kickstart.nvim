@@ -163,7 +163,7 @@ if vim.g.vscode then
   vscmap('n', '<leader>gl', 'gitlens.showGraphPage')
   vscmap('n', '<leader>gg', 'workbench.scm.focus')
   vscmap('n', '<leader>e', 'workbench.view.explorer')
-  vscmap('n', '<leader><space>', 'workbench.action.showAllEditors')
+  vscmap('n', '<leader><space>', 'workbench.action.showAllEditorsByMostRecentlyUsed')
   vscmap({ 'n', 'v' }, '<leader>d', 'editor.action.showHover')
   vscmap({ 'n', 'v' }, 'gr', 'editor.action.referenceSearch.trigger')
   vscmap('n', 'gW', 'workbench.action.showAllSymbols')
@@ -1021,6 +1021,7 @@ require('lazy').setup({
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
         additional_vim_regex_highlighting = { 'ruby' },
+        -- disable = { 'tmux' },
       },
       indent = { enable = true, disable = { 'ruby' } },
     },
