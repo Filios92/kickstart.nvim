@@ -123,6 +123,9 @@ vim.keymap.set('v', '<S-tab>', '<gv', { silent = true, noremap = true })
 vim.keymap.set('v', '>', '>gv', { silent = true, noremap = true })
 vim.keymap.set('v', '<', '<gv', { silent = true, noremap = true })
 
+-- mini.surround add nice block
+vim.keymap.set('v', 'sb', 'sa{gv=', { silent = true, remap = true })
+
 local function delete_to_black_hole(cmds)
   for _, cmd in pairs(cmds) do
     vim.keymap.set({ 'n', 'v' }, cmd, '"_' .. cmd, { silent = true, noremap = true })
