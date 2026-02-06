@@ -239,7 +239,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 if not vim.g.vscode then
   -- disable folding on startup
-  vim.opt.foldenable = false
+  vim.opt.foldenable = true
   vim.opt.foldlevel = 99
 
   vim.api.nvim_create_autocmd({ 'FileType' }, {
@@ -320,12 +320,29 @@ require('lazy').setup({
     'lewis6991/gitsigns.nvim',
     cond = not vim.g.vscode,
     opts = {
+      current_line_blame = true,
+      current_line_blame_opts = {
+        delay = 500,
+      },
       signs = {
         add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
+        -- add = { text = '▎' },
+        add = { text = '█' },
+        -- add = { text = '▋' },
+        -- change = { text = '▓' },
+        -- change = { text = '▒' },
+        -- change = { text = '░' },
+        add = { text = '»' },
+        -- add = { text = '≡' },
+        -- add = { text = '╠' },
+        -- change = { text = '▞' },
+        -- delete = { text = '_' },
+        delete = { text = '▶' },
+        delete = { text = '»' },
         topdelete = { text = '‾' },
-        changedelete = { text = '~' },
+        topdelete = { text = '▶' },
+        topdelete = { text = '»' },
+        -- changedelete = { text = '~' },
       },
     },
   },
@@ -731,7 +748,7 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         clangd = {},
-        -- gopls = {},
+        gopls = {},
         pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -991,6 +1008,8 @@ require('lazy').setup({
       if not vim.g.vscode then
         require('mini.sessions').setup { autoread = true, autowrite = true }
 
+        require('mini.pairs').setup()
+
         local statusline = require 'mini.statusline'
         -- set use_icons to true if you have a Nerd Font
         statusline.setup { use_icons = vim.g.have_nerd_font }
@@ -1026,7 +1045,7 @@ require('lazy').setup({
         additional_vim_regex_highlighting = { 'ruby' },
         -- disable = { 'tmux' },
       },
-      indent = { enable = true, disable = { 'ruby' } },
+      indent = { enable = false, disable = { 'ruby' } },
     },
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
@@ -1050,7 +1069,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
@@ -1125,24 +1144,6 @@ require('lazy').setup({
         end,
         desc = 'Lazygit',
       },
-    },
-  },
-  {
-    'f-person/git-blame.nvim',
-    event = 'VeryLazy',
-    cond = not vim.g.vscode,
-    opts = {
-      -- your configuration comes here
-      -- for example
-      enabled = true, -- if you want to enable the plugin
-      message_template = ' <author> • <date> • <summary>', -- template for the blame message, check the Message template section for more options
-      -- date_format = '%m-%d-%Y %H:%M:%S', -- template for the date, check Date format section for more options
-      date_format = '%r', -- template for the date, check Date format section for more options
-      virtual_text_column = 1, -- virtual text start column, check Start virtual text at column section for more options
-      schedule_event = 'CursorHold',
-      clear_event = 'CursorHoldI',
-      max_commit_summary_length = 50,
-      delay = 500,
     },
   },
   {

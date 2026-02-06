@@ -15,22 +15,29 @@ return {
           vim.keymap.set(mode, l, r, opts)
         end
 
-        -- Navigation
-        map('n', ']c', function()
+        local next_hunk = function()
           if vim.wo.diff then
             vim.cmd.normal { ']c', bang = true }
           else
             gitsigns.nav_hunk 'next'
           end
-        end, { desc = 'Jump to next git [c]hange' })
+        end
 
-        map('n', '[c', function()
+        local prev_hunk = function()
           if vim.wo.diff then
             vim.cmd.normal { '[c', bang = true }
           else
             gitsigns.nav_hunk 'prev'
           end
-        end, { desc = 'Jump to previous git [c]hange' })
+        end
+
+        -- Navigation
+        map('n', ']c', next_hunk, { desc = 'Jump to next git [c]hange' })
+
+        map('n', '[c', prev_hunk, { desc = 'Jump to previous git [c]hange' })
+
+        map({ 'n', 'i' }, '<C-J>', next_hunk, { desc = 'Jump to next git [c]hange' })
+        map({ 'n', 'i' }, '<C-K>', prev_hunk, { desc = 'Jump to previous git [c]hange' })
 
         -- Actions
         -- visual mode
