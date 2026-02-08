@@ -4,9 +4,13 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
+-- [ Indentation ]
+vim.opt.tabstop = 4 -- Tab width
+vim.opt.shiftwidth = 4 -- Indent width
+-- vim.o.softtabstop = 4 -- Soft tab stop
+vim.opt.expandtab = true -- Use spaces instead of tabs
+-- opt.smartindent = true -- Smart auto-indenting
+-- opt.autoindent = true -- Copy indent from current line
 
 if not vim.g.vscode then
   -- When editing a file, always jump to the last known cursor position.
@@ -25,203 +29,74 @@ if not vim.g.vscode then
     end,
   })
 
-  vim.keymap.set('i', '<C-z>', '<C-O>u', { silent = true, noremap = true })
-
-  -- Set to true if you have a Nerd Font installed and selected in the terminal
-  vim.g.have_nerd_font = true
+  vim.g.have_nerd_font = true -- if Nerd Font installed and selected in terminal
 
   -- [[ Setting options ]]
   -- See `:help vim.o`
   -- NOTE: You can change these options as you wish!
   --  For more options, you can see `:help option-list`
 
-  -- Make line numbers default
-  vim.o.number = true
-  -- You can also add relative line numbers, to help with jumping.
-  --  Experiment for yourself to see if you like it!
-  vim.o.relativenumber = true
+  -- [ Cursor ]
+  vim.o.number = true -- Make line numbers default
+  vim.o.relativenumber = true -- Relative
+  vim.o.cursorline = true -- Show which line your cursor is on
+  vim.o.wrap = false -- Dont wrap at startup
+  vim.o.scrolloff = 10 -- Kepp lines above and below the cursor.
+  vim.o.sidescrolloff = 8 -- Kepp lines left and right the cursor.
 
-  -- Enable mouse mode, can be useful for resizing splits for example!
-  vim.o.mouse = 'a'
-
-  -- Don't show the mode, since it's already in the status line
-  vim.o.showmode = false
-
-  -- Save undo history
-  vim.o.undofile = true
+  -- [ File handling ]
+  -- vim.opt.backup = false -- Don't create backup files
+  -- vim.opt.writebackup = false -- Don't create backup before writing
+  -- vim.opt.swapfile = false -- Don't create swap files
+  vim.o.undofile = true -- Save undo history
 
   -- Sets how neovim will display certain whitespace characters in the editor.
-  --  See `:help 'list'`
-  --  and `:help 'listchars'`
-  --  Notice listchars is set using `vim.opt` instead of `vim.o`.
-  --  It is very similar to `vim.o` but offers an interface for conveniently interacting with tables.
-  --   See `:help lua-options`
-  --   and `:help lua-options-guide`
   vim.o.list = true
   vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
-  -- Minimal number of screen lines to keep above and below the cursor.
-  vim.o.scrolloff = 10
-
-  -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
-  -- instead raise a dialog asking if you wish to save the current file(s)
-  -- See `:help 'confirm'`
-  vim.o.confirm = true
+  vim.o.confirm = true -- Confirm dialog on unsaved changes
 end
 
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
--- vim.schedule(function()
---   vim.o.clipboard = 'unnamedplus'
--- end)
-vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { silent = true, noremap = true })
-vim.keymap.set({ 'n', 'v' }, '<leader>Y', '<cmd>let @+=@"<cr>', { silent = true, noremap = true })
-vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p', { silent = true, noremap = true })
-vim.keymap.set({ 'n', 'v' }, '<leader>P', '<cmd>let @"=@+<cr>', { silent = true, noremap = true })
+vim.schedule(function()
+  vim.o.clipboard = 'unnamedplus'
+end)
+-- vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { silent = true, noremap = true })
+-- vim.keymap.set({ 'n', 'v' }, '<leader>Y', '<cmd>let @+=@"<cr>', { silent = true, noremap = true })
+-- vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p', { silent = true, noremap = true })
+-- vim.keymap.set({ 'n', 'v' }, '<leader>P', '<cmd>let @"=@+<cr>', { silent = true, noremap = true })
 
--- Enable break indent
-vim.o.breakindent = true
+-- [ Search settings ]
+vim.o.ignorecase = true -- Case insensitive search, unless \C or more capital letters
+vim.o.smartcase = true -- Case sensitive if uppercase in search
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>') -- Clear highlights on <Esc> in normal
 
--- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
-vim.o.ignorecase = true
-vim.o.smartcase = true
-
--- Keep signcolumn on by default
-vim.o.signcolumn = 'yes'
-
--- Decrease update time
-vim.o.updatetime = 250
-
--- Decrease mapped sequence wait time
-vim.o.timeoutlen = 300
-
--- Configure how new splits should be opened
+-- [ Visual settings ]
+vim.o.signcolumn = 'yes' -- Keep signcolumn on by default
+vim.o.mouse = 'a' -- Enable mouse mode
+vim.o.showmode = vim.g.vscode and true or false -- Don't show the mode, already in the status line
+vim.o.timeoutlen = 300 -- Decrease mapped sequence wait time
+-- vim.o.ttimeoutlen = 300 -- Key code timeout
+vim.o.linebreak = true -- Break lines at nice words
+vim.o.breakindent = true -- Enable break indent
+vim.o.inccommand = 'split' -- Preview substitutions live, as you type!
 vim.o.splitright = true
 vim.o.splitbelow = true
+-- vim.o.splitkeep = 'screen'
 
--- Preview substitutions live, as you type!
-vim.o.inccommand = 'split'
-
--- Show which line your cursor is on
-vim.o.cursorline = true
+-- [ Performance settings ]
+vim.o.updatetime = 250 -- Decrease update time
+vim.o.synmaxcol = 300 -- Syntax hl column limit, prevent freeze on minified files
+-- vim.o.redrawtime = 10000 -- Over this -> disable hlsearch, syntax etc.
+-- vim.o.maxmempattern = 20000 -- Memory limit as above
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
---  https://github.com/vscode-neovim/vscode-neovim/issues/58
--- vim.api.nvim_set_keymap('n', 'j', 'gj', { noremap = false, silent = true })
--- vim.api.nvim_set_keymap('n', 'k', 'gk', { noremap = false, silent = true })
--- THIS: to properly support 'specific' vscode handling - jump over fold and aligned number handling
--- https://www.reddit.com/r/neovim/comments/gjhhry/neovim_syntax_for_expr_keybinding/
--- vim.api.nvim_set_keymap('n', 'j', "v:count ? 'j' : 'gj'", { noremap = false, silent = true, expr = true })
--- vim.api.nvim_set_keymap('n', 'k', "v:count ? 'k' : 'gk'", { noremap = false, silent = true, expr = true })
-
-vim.keymap.set('v', '<tab>', '>gv', { silent = true, noremap = true })
-vim.keymap.set('v', '<S-tab>', '<gv', { silent = true, noremap = true })
-vim.keymap.set('v', '>', '>gv', { silent = true, noremap = true })
-vim.keymap.set('v', '<', '<gv', { silent = true, noremap = true })
-
--- mini.surround add nice block
-vim.keymap.set('v', 'sb', 'sa{gv=', { silent = true, remap = true })
-
-local function delete_to_black_hole(cmds)
-  for _, cmd in pairs(cmds) do
-    vim.keymap.set({ 'n', 'v' }, cmd, '"_' .. cmd, { silent = true, noremap = true })
-  end
-end
-delete_to_black_hole { 'c', 'C', 'x', 'X' }
--- map D to d
--- vim.keymap.set({ 'n', 'v' }, 'D', 'd', { silent = true, noremap = true })
-vim.keymap.set('v', 'p', '"_dP', { silent = true, noremap = true })
-
-if vim.g.vscode then
-  local vscode = require 'vscode'
-
-  vim.g.clipboard = vim.g.vscode_clipboard
-
-  local function vscmap(mode, lhs, rhs)
-    vim.keymap.set(mode, lhs, function()
-      vscode.call(rhs)
-    end, { silent = true, noremap = true })
-  end
-
-  -- Remap folding keys
-  vscmap('n', 'zM', 'editor.foldAll')
-  vscmap('n', 'zR', 'editor.unfoldAll')
-  vscmap('n', 'zc', 'editor.fold')
-  vscmap('n', 'zC', 'editor.foldRecursively')
-  vscmap('n', 'zo', 'editor.unfold')
-  vscmap('n', 'zO', 'editor.unfoldRecursively')
-  vscmap('n', 'za', 'editor.toggleFold')
-
-  -- vscmap({ 'n', 'v' }, 'u', 'undo')
-  -- vscmap({ 'n', 'v' }, '<c-r>', 'redo')
-  --
-  --
-  --
-  vscmap({ 'n', 'v' }, '<leader>fs', 'editor.action.formatSelection')
-  vscmap({ 'n', 'v' }, '<leader>fd', 'editor.action.formatDocument')
-  vscmap('n', '<leader>gl', 'gitlens.showGraphPage')
-  vscmap('n', '<leader>gg', 'workbench.scm.focus')
-  vscmap('n', '<leader>e', 'workbench.view.explorer')
-  vscmap('n', '<leader><space>', 'workbench.action.showAllEditorsByMostRecentlyUsed')
-  vscmap({ 'n', 'v' }, '<leader>d', 'editor.action.showHover')
-  vscmap({ 'n', 'v' }, 'gr', 'editor.action.referenceSearch.trigger')
-  vscmap('n', 'gW', 'workbench.action.showAllSymbols')
-  vscmap('n', '<leader>sf', 'workbench.action.quickOpen', { desc = '[S]earch [F]iles' })
-
-  vim.keymap.set({ 'n', 'x', 'i' }, '<C-d>', function()
-    require('vscode-multi-cursor').addSelectionToNextFindMatch()
-  end)
-else
-  -- Diagnostic keymaps
-  vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-
-  -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
-  -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
-  -- is not what someone will guess without a bit more experience.
-  --
-  -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
-  -- or just use <C-\><C-n> to exit terminal mode
-  vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
-
-  -- TIP: Disable arrow keys in normal mode
-  -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
-  -- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
-  -- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
-  -- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
-
-  -- Keybinds to make split navigation easier.
-  --  Use CTRL+<hjkl> to switch between windows
-  --
-  --  See `:help wincmd` for a list of all window commands
-  vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-  vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-  vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-  vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-  vim.keymap.set('n', '<A-left>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-  vim.keymap.set('n', '<A-right>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-  vim.keymap.set('n', '<A-down>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-  vim.keymap.set('n', '<A-up>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
-  vim.keymap.set('n', '<C-A-right>', '<C-w>v', { desc = 'Split right' })
-  vim.keymap.set('n', '<C-A-down>', '<C-w><C-S>', { desc = 'Split below' })
-
-  -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
-  -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
-  -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
-  -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
-  -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
-
-  vim.keymap.set('n', '<A-->', '<C-o>', { desc = 'Go back' })
-  vim.keymap.set('n', '<A-=>', '<C-i>', { desc = 'Go forward' })
-end
-
--- Clear highlights on search when pressing <Esc> in normal mode
---  See `:help hlsearch`
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+require 'custom.keymaps'
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -237,10 +112,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- [ Folding settings ]
 if not vim.g.vscode then
-  -- disable folding on startup
   vim.opt.foldenable = true
-  vim.opt.foldlevel = 99
+  vim.opt.foldlevel = 99 -- start with all open
 
   vim.api.nvim_create_autocmd({ 'FileType' }, {
     callback = function()
@@ -283,12 +158,6 @@ rtp:prepend(lazypath)
 --    :Lazy update
 --
 -- NOTE: Here is where you install your plugins.
-local isvscode = function()
-  return vim.g.vscode
-end
-local isnotvscode = function()
-  return not vim.g.vscode
-end
 
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
@@ -325,24 +194,9 @@ require('lazy').setup({
         delay = 500,
       },
       signs = {
-        add = { text = '+' },
-        -- add = { text = '▎' },
-        add = { text = '█' },
-        -- add = { text = '▋' },
-        -- change = { text = '▓' },
-        -- change = { text = '▒' },
-        -- change = { text = '░' },
         add = { text = '»' },
-        -- add = { text = '≡' },
-        -- add = { text = '╠' },
-        -- change = { text = '▞' },
-        -- delete = { text = '_' },
-        delete = { text = '▶' },
         delete = { text = '»' },
-        topdelete = { text = '‾' },
-        topdelete = { text = '▶' },
         topdelete = { text = '»' },
-        -- changedelete = { text = '~' },
       },
     },
   },
@@ -1046,6 +900,15 @@ require('lazy').setup({
         -- disable = { 'tmux' },
       },
       indent = { enable = false, disable = { 'ruby' } },
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = '<A-o>',
+          node_incremental = '<A-o>',
+          scope_incremental = '<A-O>',
+          node_decremental = '<A-i>',
+        },
+      },
     },
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
