@@ -13,22 +13,6 @@ vim.opt.expandtab = true -- Use spaces instead of tabs
 -- opt.autoindent = true -- Copy indent from current line
 
 if not vim.g.vscode then
-  -- When editing a file, always jump to the last known cursor position.
-  -- Don't do it when the position is invalid, when inside an event handler
-  -- (happens when dropping a file on gvim) and for a commit message (it's
-  -- likely a different one than last time).
-  vim.api.nvim_create_autocmd('BufReadPost', {
-    -- group = vim.g.user.event,
-    callback = function(args)
-      local valid_line = vim.fn.line [['"]] >= 1 and vim.fn.line [['"]] < vim.fn.line '$'
-      local not_commit = vim.b[args.buf].filetype ~= 'commit'
-
-      if valid_line and not_commit then
-        vim.cmd [[normal! g`"]]
-      end
-    end,
-  })
-
   vim.g.have_nerd_font = true -- if Nerd Font installed and selected in terminal
 
   -- [[ Setting options ]]
@@ -93,44 +77,15 @@ vim.o.synmaxcol = 300 -- Syntax hl column limit, prevent freeze on minified file
 -- vim.o.redrawtime = 10000 -- Over this -> disable hlsearch, syntax etc.
 -- vim.o.maxmempattern = 20000 -- Memory limit as above
 
+-- [ Folding settings ]
+vim.opt.foldenable = vim.g.vscode and false or true
+vim.opt.foldlevel = 99 -- start with all open
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
 require 'custom.keymaps'
-
--- [[ Basic Autocommands ]]
---  See `:help lua-guide-autocommands`
-
--- Highlight when yanking (copying) text
---  Try it with `yap` in normal mode
---  See `:help vim.hl.on_yank()`
-vim.api.nvim_create_autocmd('TextYankPost', {
-  desc = 'Highlight when yanking (copying) text',
-  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
-  callback = function()
-    vim.hl.on_yank()
-  end,
-})
-
--- [ Folding settings ]
-if not vim.g.vscode then
-  vim.opt.foldenable = true
-  vim.opt.foldlevel = 99 -- start with all open
-
-  vim.api.nvim_create_autocmd({ 'FileType' }, {
-    callback = function()
-      -- check if treesitter has parser
-      if require('nvim-treesitter.parsers').has_parser() then
-        -- use treesitter folding
-        vim.opt.foldmethod = 'expr'
-        vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-      else
-        -- use alternative foldmethod
-        vim.opt.foldmethod = 'syntax'
-      end
-    end,
-  })
-end
+require 'custom.autocmds'
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
