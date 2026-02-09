@@ -3,9 +3,7 @@ local vscode = require 'vscode'
 vim.g.clipboard = vim.g.vscode_clipboard
 
 local function vscmap(mode, lhs, rhs)
-  vim.keymap.set(mode, lhs, function()
-    vscode.call(rhs)
-  end, { silent = true, noremap = true })
+  vim.keymap.set(mode, lhs, function() vscode.call(rhs) end, { silent = true, noremap = true })
 end
 
 -- Remap folding keys
@@ -31,8 +29,6 @@ vscmap('n', '<leader><space>', 'workbench.action.showAllEditorsByMostRecentlyUse
 vscmap({ 'n', 'v' }, '<leader>d', 'editor.action.showHover')
 vscmap({ 'n', 'v' }, 'gr', 'editor.action.referenceSearch.trigger')
 vscmap('n', 'gW', 'workbench.action.showAllSymbols')
-vscmap('n', '<leader>sf', 'workbench.action.quickOpen', { desc = '[S]earch [F]iles' })
+vscmap('n', '<leader>sf', 'workbench.action.quickOpen')
 
-vim.keymap.set({ 'n', 'x', 'i' }, '<C-d>', function()
-  require('vscode-multi-cursor').addSelectionToNextFindMatch()
-end)
+vim.keymap.set({ 'n', 'x', 'i' }, '<C-d>', function() require('vscode-multi-cursor').addSelectionToNextFindMatch() end)

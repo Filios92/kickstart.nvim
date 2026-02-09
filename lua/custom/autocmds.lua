@@ -1,8 +1,6 @@
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
-local function augroup(name)
-  return vim.api.nvim_create_augroup('user_' .. name, { clear = true })
-end
+local function augroup(name) return vim.api.nvim_create_augroup('user_' .. name, { clear = true }) end
 
 if not vim.g.vscode then
   -- When editing a file, always jump to the last known cursor position.
@@ -15,9 +13,7 @@ if not vim.g.vscode then
       local valid_line = vim.fn.line [['"]] >= 1 and vim.fn.line [['"]] < vim.fn.line '$'
       local not_commit = vim.b[args.buf].filetype ~= 'commit'
 
-      if valid_line and not_commit then
-        vim.cmd [[normal! g`"]]
-      end
+      if valid_line and not_commit then vim.cmd [[normal! g`"]] end
     end,
   })
 
@@ -39,9 +35,7 @@ if not vim.g.vscode then
   vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
     group = augroup 'checktime',
     callback = function()
-      if vim.o.buftype ~= 'nofile' then
-        vim.cmd 'checktime'
-      end
+      if vim.o.buftype ~= 'nofile' then vim.cmd 'checktime' end
     end,
   })
 
@@ -79,18 +73,14 @@ end
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
-  callback = function()
-    vim.hl.on_yank()
-  end,
+  callback = function() vim.hl.on_yank() end,
 })
 
 -- make it easier to close man-files when opened inline
 vim.api.nvim_create_autocmd('FileType', {
   group = augroup 'man_unlisted',
   pattern = { 'man' },
-  callback = function(event)
-    vim.bo[event.buf].buflisted = false
-  end,
+  callback = function(event) vim.bo[event.buf].buflisted = false end,
 })
 
 -- close some filetypes with <q>
