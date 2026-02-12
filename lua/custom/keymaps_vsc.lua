@@ -6,6 +6,15 @@ local function vscmap(mode, lhs, rhs)
   vim.keymap.set(mode, lhs, function() vscode.call(rhs) end, { silent = true, noremap = true })
 end
 
+local function vscmapmulti(mode, lhs, rhs)
+  vim.keymap.set(mode, lhs, function()
+    for _, c in ipairs(rhs) do
+      print(c)
+      vscode.call(c)
+    end
+  end, { silent = true, noremap = true })
+end
+
 -- Remap folding keys
 vscmap('n', 'zM', 'editor.foldAll')
 vscmap('n', 'zR', 'editor.unfoldAll')
@@ -32,3 +41,12 @@ vscmap('n', 'gW', 'workbench.action.showAllSymbols')
 vscmap('n', '<leader>sf', 'workbench.action.quickOpen')
 
 vim.keymap.set({ 'n', 'x', 'i' }, '<C-d>', function() require('vscode-multi-cursor').addSelectionToNextFindMatch() end)
+
+-- gitsigns
+vscmap('n', '<leader>hp', 'editor.action.dirtydiff.next')
+-- vscmap('n', '<leader>hr', 'git.revertChange')
+vscmap('n', '<leader>hr', 'git.revertSelectedRanges')
+vscmap('v', '<leader>hr', 'git.revertSelectedRanges')
+vscmap('n', '<leader>hs', 'git.diff.stageHunk')
+vscmap('n', '<leader>hS', 'git.stageFile')
+vscmapmulti('v', '<leader>hs', { 'git.unstageSelectedRanges', 'git.stageSelectedRanges' })

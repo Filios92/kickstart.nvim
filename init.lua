@@ -33,6 +33,9 @@ require('lazy').setup({
         delete = { text = '»' },
         topdelete = { text = '»' },
       },
+      preview_config = {
+        border = 'rounded',
+      },
     },
   },
 
@@ -47,15 +50,24 @@ require('lazy').setup({
         styles = {
           comments = { italic = true },
           -- sidebars = 'transparent',
-          -- floats = 'transparent',
+          floats = 'transparent',
         },
         dim_inactive = true,
       }
 
-      vim.api.nvim_create_autocmd('ColorScheme', {
-        pattern = '*',
-        callback = set_normal_float_highlight,
-      })
+      -- vim.api.nvim_create_autocmd('ColorScheme', {
+      --   pattern = '*',
+      --   callback = set_normal_float_highlight,
+      -- })
+      -- vim.api.nvim_create_autocmd('ColorScheme', {
+      --   pattern = '*',
+      --   callback = function()
+      --     vim.api.nvim_set_hl(0, 'SnacksPicker', { bg = 'none', nocombine = true })
+      --     vim.api.nvim_set_hl(0, 'SnacksPickerBorder', { fg = '#316c71', bg = 'none', nocombine = true })
+      --     vim.api.nvim_set_hl(0, 'SnacksPickerInputBorder', { fg = '#FF9E64', bg = 'none', nocombine = true })
+      --     -- set_normal_float_highlight()
+      --   end,
+      -- })
 
       vim.cmd.colorscheme 'tokyonight-night'
     end,
@@ -95,7 +107,7 @@ require('lazy').setup({
         -- default behavior. For example, here we set the section for
         -- cursor location to LINE:COLUMN
         ---@diagnostic disable-next-line: duplicate-set-field
-        -- statusline.section_location = function() return '%2l:%-2v' end
+        statusline.section_location = function() return '%2l:%-2v' end
       end
     end,
   },

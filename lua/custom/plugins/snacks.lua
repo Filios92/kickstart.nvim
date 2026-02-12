@@ -22,6 +22,13 @@ return { -- folke/snacks
     picker = {
       enabled = true,
 
+      formatters = {
+        file = {
+          filename_first = true,
+          -- filename_only = true,
+        },
+      },
+
       win = {
         input = {
           keys = {
