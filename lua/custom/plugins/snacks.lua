@@ -15,7 +15,7 @@ return { -- folke/snacks
     notifier = { enabled = true },
     quickfile = { enabled = true },
     scope = { enabled = true },
-    scroll = { enabled = true, animate = { easing = 'outQuint' } },
+    -- scroll = { enabled = true, animate = { easing = 'outQuint' } },
     statuscolumn = { enabled = true },
     terminal = { enabled = true },
     words = { enabled = true },

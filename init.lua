@@ -33,9 +33,6 @@ require('lazy').setup({
         delete = { text = '»' },
         topdelete = { text = '»' },
       },
-      preview_config = {
-        border = 'rounded',
-      },
     },
   },
 
@@ -47,9 +44,10 @@ require('lazy').setup({
       ---@diagnostic disable-next-line: missing-fields
       require('tokyonight').setup {
         transparent = true,
+        style = 'night',
         styles = {
           comments = { italic = true },
-          -- sidebars = 'transparent',
+          sidebars = 'transparent',
           floats = 'transparent',
         },
         dim_inactive = true,
@@ -70,6 +68,19 @@ require('lazy').setup({
       -- })
 
       vim.cmd.colorscheme 'tokyonight-night'
+    end,
+  },
+
+  {
+    'catppuccin/nvim',
+    cond = not vim.g.vscode,
+    name = 'catppuccin',
+    priority = 1000,
+    config = function()
+      require('catppuccin').setup {
+        transparent_background = 'true',
+        auto_integrations = true,
+      }
     end,
   },
 
@@ -224,14 +235,5 @@ require('lazy').setup({
   },
 })
 
-local hover = vim.lsp.buf.hover
----@diagnostic disable-next-line: duplicate-set-field
-vim.lsp.buf.hover = function()
-  return hover {
-    max_width = 100,
-    max_height = 14,
-    border = 'rounded',
-  }
-end
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
