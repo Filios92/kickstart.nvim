@@ -11,20 +11,21 @@ return { -- Useful plugin to show you pending keybinds.
 
     -- Document existing key chains
     spec = {
-      { '<leader>c', group = '[C]ode', mode = { 'n', 'v' } },
+      { '<leader>c', group = 'Code', mode = { 'n', 'v' } },
       -- { '<leader>D', group = 'Diffview', icon = { icon = '', color = 'orange' } },
-      { '<leader>f', group = '[F]ind', mode = { 'n', 'v' } },
-      { '<leader>g', group = '[G]it', icon = { icon = '' } },
+      { '<leader>f', group = 'Find', mode = { 'n', 'v' } },
+      { '<leader>g', group = 'Git', icon = { icon = '' } },
       -- { '<leader>p', group = 'Yanky', icon = { icon = '󰃮 ', color = 'yellow' } },
-      { '<leader>s', group = '[S]earch', mode = { 'n', 'v' } },
-      { '<leader>t', group = '[T]oggle' },
-      { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+      { '<leader>s', group = 'Search', mode = { 'n', 'v' } },
+      { '<leader>t', group = 'Toggle' },
+      { '<leader>h', group = 'Git Hunk', mode = { 'n', 'v' } },
       { '<leader><tab>', group = 'Tabs' },
       { '<leader>u', group = 'ui', icon = { icon = '󰙵 ', color = 'cyan' } },
       { '<leader>x', group = 'diagnostics/quickfix', icon = { icon = '󱖫 ', color = 'green' } },
+      { '<leader>q', group = 'Quit' },
       {
         '<leader>b',
-        group = 'buffer',
+        group = 'Buffer',
         expand = function() return require('which-key.extras').expand.buf() end,
       },
       {

@@ -93,7 +93,7 @@ return {
             map('<leader>sS', picker.lsp_dynamic_workspace_symbols, 'LSP Workspace Symbols')
           end
           map('grt', picker.lsp_type_definitions, '[G]oto [T]ype Definition')
-          map('<leader>D', picker.lsp_type_definitions, 'Type [D]efinition')
+          -- map('<leader>D', picker.lsp_type_definitions, 'Type [D]efinition')
           map('gai', picker.lsp_incoming_calls, 'C[a]lls Incoming')
           map('gao', picker.lsp_outgoing_calls, 'C[a]lls Outgoing')
 

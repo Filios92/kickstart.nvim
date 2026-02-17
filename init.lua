@@ -60,8 +60,21 @@ require('lazy').setup({
       --  You could remove this setup call if you don't like it,
       --  and try some other statusline plugin
       if not vim.g.vscode then
-        require('mini.sessions').setup { autoread = true }
+        require('mini.sessions').setup {
+          autoread = true,
+          hooks = {
+            post = {
+              read = function(session)
+                if Dart then Dart.read_session(session['name']) end
+              end,
+              write = function(session)
+                if Dart then Dart.write_session(session['name']) end
+              end,
+            },
+          },
+        }
 
+        require('mini.tabline').setup()
         require('mini.pairs').setup()
 
         local statusline = require 'mini.statusline'
@@ -75,6 +88,121 @@ require('lazy').setup({
         statusline.section_location = function() return '%2l:%-2v' end
       end
     end,
+  },
+
+  {
+    'iofq/dart.nvim',
+    enabled = false,
+    cond = not vim.g.vscode,
+    dependencies = {
+      'echasnovski/mini.nvim', -- optional, icons provider
+      'nvim-tree/nvim-web-devicons', -- optional, icons provider
+    },
+    opts = {
+      mappings = {
+        next = '<C-PageDown>',
+        prev = '<C-PageUp>',
+      },
+    }, -- see Configuration section
+  },
+
+  {
+    'folke/flash.nvim',
+    -- enabled = false,
+    event = 'VeryLazy',
+    ---@type Flash.Config
+    opts = {
+      modes = { search = { enabled = true } },
+    },
+    keys = {
+      { '<leader>fs', mode = { 'n', 'x', 'o' }, function() require('flash').jump() end, desc = 'Flash' },
+      { '<leader>fS', mode = { 'n', 'x', 'o' }, function() require('flash').treesitter() end, desc = 'Flash Treesitter' },
+      { '<leader>fe', mode = 'o', function() require('flash').remote() end, desc = 'Remote Flash' },
+      { '<leader>fE', mode = { 'o', 'x' }, function() require('flash').treesitter_search() end, desc = 'Treesitter Search' },
+      { '<c-s>', mode = { 'c' }, function() require('flash').toggle() end, desc = 'Toggle Flash Search' },
+    },
+  },
+
+  {
+    'MagicDuck/grug-far.nvim',
+    cond = not vim.g.vscode,
+    -- opts = {},
+    -- Note (lazy loading): grug-far.lua defers all it's requires so it's lazy by default
+    -- additional lazy config to defer loading is not really needed...
+    config = function()
+      -- optional setup call to override plugin options
+      -- alternatively you can set options with vim.g.grug_far = { ... }
+      require('grug-far').setup {
+        -- options, see Configuration section below
+        -- there are no required options atm
+      }
+
+      vim.keymap.set({ 'n', 'v', 'x' }, '<leader>sr', function()
+        local grug = require 'grug-far'
+        local ext = vim.bo.buftype == '' and vim.fn.expand '%:e'
+        grug.open {
+          transient = true,
+          prefills = {
+            filesFilter = ext and ext ~= '' and '*.' .. ext or nil,
+          },
+        }
+      end, { desc = 'Search and Replace' })
+    end,
+  },
+
+  -- lazy.nvim
+  {
+    'folke/noice.nvim',
+    -- enabled = false,
+    cond = not vim.g.vscode,
+    event = 'VeryLazy',
+    opts = {
+      -- add any options here
+      cmdline = {
+        view = 'cmdline',
+      },
+      lsp = {
+        -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+        override = {
+          -- ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
+          -- ['vim.lsp.util.stylize_markdown'] = true,
+          -- ['cmp.entry.get_documentation'] = true, -- requires hrsh7th/nvim-cmp
+        },
+        hover = {
+          enabled = false,
+        },
+      },
+      routes = {
+        {
+          filter = {
+            event = 'msg_show',
+            any = {
+              { find = '%d+L, %d+B' },
+              { find = '; after #%d+' },
+              { find = '; before #%d+' },
+            },
+          },
+          view = 'notify',
+        },
+      },
+
+      -- you can enable a preset for easier configuration
+      presets = {
+        bottom_search = true, -- use a classic bottom cmdline for search
+        command_palette = true, -- position the cmdline and popupmenu together
+        long_message_to_split = true, -- long messages will be sent to a split
+        inc_rename = false, -- enables an input dialog for inc-rename.nvim
+        lsp_doc_border = false, -- add a border to hover docs and signature help
+      },
+    },
+    dependencies = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      'MunifTanjim/nui.nvim',
+      -- OPTIONAL:
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      -- 'rcarriga/nvim-notify',
+    },
   },
 
   require 'custom.plugins.treesitter',
@@ -136,6 +264,7 @@ require('lazy').setup({
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
     -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
+    border = 'single',
     icons = vim.g.have_nerd_font and {} or {
       cmd = '⌘',
       config = '🛠',

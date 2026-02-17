@@ -7,6 +7,8 @@ local opts = { noremap = true, silent = true }
 -- -- Tab/Shift-Tab: Like browser tabs, feels natural
 -- map("n", "<Tab>", ":bnext<CR>", { desc = "Next buffer" })
 -- map("n", "<S-Tab>", ":bprevious<CR>", { desc = "Previous buffer" })
+map({ 'n', 'i' }, '<C-PageDown>', ':bnext<CR>', { desc = 'Next buffer' })
+map({ 'n', 'i' }, '<C-PageUp>', ':bprevious<CR>', { desc = 'Previous buffer' })
 --
 -- -- Alternative buffer switching (vim-style)
 -- map("n", "<leader>bn", ":bnext<CR>", { desc = "Next buffer" })
