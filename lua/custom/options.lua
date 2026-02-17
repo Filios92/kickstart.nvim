@@ -43,8 +43,9 @@ if not vim.g.vscode then
   vim.o.confirm = true -- Confirm dialog on unsaved changes
 
   -- [ Folding settings ]
-  vim.opt.foldenable = true
-  vim.opt.foldlevel = 99 -- start with all open
+  vim.o.foldenable = true
+  vim.o.foldlevel = 99 -- start with all open
+  vim.o.foldmethod = 'syntax'
 end
 
 -- Sync clipboard between OS and Neovim.

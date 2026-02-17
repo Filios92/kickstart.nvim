@@ -13,6 +13,7 @@ return {
       },
     },
   },
+
   { -- Main LSP Configuration
     'neovim/nvim-lspconfig',
     cond = not vim.g.vscode,
