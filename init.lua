@@ -172,6 +172,9 @@ require('lazy').setup({
           enabled = false,
         },
       },
+      messages = {
+        view_search = 'cmdline',
+      },
       routes = {
         {
           filter = {
