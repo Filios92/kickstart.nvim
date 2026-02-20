@@ -30,7 +30,7 @@ return {
       --   end,
       -- })
 
-      vim.cmd.colorscheme 'tokyonight-night'
+      -- vim.cmd.colorscheme 'tokyonight-night'
     end,
   },
 
@@ -44,6 +44,7 @@ return {
         transparent_background = 'true',
         auto_integrations = true,
       }
+      vim.cmd.colorscheme 'catppuccin-macchiato'
     end,
   },
 }
