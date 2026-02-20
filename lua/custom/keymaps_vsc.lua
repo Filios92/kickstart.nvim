@@ -9,7 +9,6 @@ end
 local function vscmapmulti(mode, lhs, rhs)
   vim.keymap.set(mode, lhs, function()
     for _, c in ipairs(rhs) do
-      print(c)
       vscode.call(c)
     end
   end, { silent = true, noremap = true })

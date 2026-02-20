@@ -22,6 +22,8 @@ return { -- folke/snacks
     picker = {
       enabled = true,
 
+      layout = { preset = 'ivy' },
+
       formatters = {
         file = {
           filename_first = true,

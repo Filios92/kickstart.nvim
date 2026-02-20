@@ -5,7 +5,17 @@
 return {
   {
     'lewis6991/gitsigns.nvim',
+    cond = not vim.g.vscode,
     opts = {
+      current_line_blame = true,
+      current_line_blame_opts = {
+        delay = 500,
+      },
+      signs = {
+        add = { text = '»' },
+        delete = { text = '»' },
+        topdelete = { text = '»' },
+      },
       on_attach = function(bufnr)
         local gitsigns = require 'gitsigns'
 

@@ -7,8 +7,8 @@ local opts = { noremap = true, silent = true }
 -- -- Tab/Shift-Tab: Like browser tabs, feels natural
 -- map("n", "<Tab>", ":bnext<CR>", { desc = "Next buffer" })
 -- map("n", "<S-Tab>", ":bprevious<CR>", { desc = "Previous buffer" })
-map({ 'n', 'i' }, '<C-PageDown>', ':bnext<CR>', { desc = 'Next buffer' })
-map({ 'n', 'i' }, '<C-PageUp>', ':bprevious<CR>', { desc = 'Previous buffer' })
+map({ 'n', 'i' }, '<C-PageDown>', '<cmd>:bnext<CR>', { desc = 'Next buffer' })
+map({ 'n', 'i' }, '<C-PageUp>', '<cmd>:bprevious<CR>', { desc = 'Previous buffer' })
 --
 -- -- Alternative buffer switching (vim-style)
 -- map("n", "<leader>bn", ":bnext<CR>", { desc = "Next buffer" })
@@ -104,6 +104,8 @@ map('i', '<C-z>', '<C-O>u', opts)
 map({ 'n' }, '<C-_>', ':normal gcc<Cr>', opts)
 map({ 'i' }, '<C-_>', '<C-o>:normal gcc<cr>', opts)
 map('x', '<C-_>', 'gcgv', { remap = true, silent = true })
+-- map({ 'n' }, '♠', ':normal gcc<Cr>', opts) -- ctrl shift /
+-- map('x', '♠', 'gcgv', { remap = true, silent = true })
 
 -- In insert move shift with arrows will move
 local function map_arrows_insert(key, key2)

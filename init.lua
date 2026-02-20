@@ -19,24 +19,23 @@ local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
 
 require('lazy').setup({
-  { 'NMAC427/guess-indent.nvim', opts = {} },
-  { -- Adds git related signs to the gutter, as well as utilities for managing changes
-    'lewis6991/gitsigns.nvim',
-    cond = not vim.g.vscode,
-    opts = {
-      current_line_blame = true,
-      current_line_blame_opts = {
-        delay = 500,
-      },
-      signs = {
-        add = { text = '»' },
-        delete = { text = '»' },
-        topdelete = { text = '»' },
-      },
-    },
-  },
 
   require 'custom.colorschemes',
+  require 'custom.plugins.treesitter',
+
+  -- require 'kickstart.plugins.debug',
+  -- require 'kickstart.plugins.indent_line',
+  -- require 'kickstart.plugins.lint',
+  -- require 'kickstart.plugins.autopairs',
+  -- require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+
+  -- require 'custom.plugins.telescope',
+  require 'custom.plugins.which-key',
+  require 'custom.plugins.snacks',
+  require 'custom.plugins.lsp',
+
+  { 'NMAC427/guess-indent.nvim', opts = {} },
 
   { -- Collection of various small independent plugins/modules
     'nvim-mini/mini.nvim',
@@ -62,6 +61,8 @@ require('lazy').setup({
       if not vim.g.vscode then
         require('mini.sessions').setup {
           autoread = true,
+          force = { write = false },
+          verbose = { read = true },
           hooks = {
             post = {
               read = function(session)
@@ -73,6 +74,11 @@ require('lazy').setup({
             },
           },
         }
+        vim.keymap.set('n', '<leader>qs', function()
+          local name = vim.fn.input 'Session name'
+          require('mini.sessions').write(name)
+        end, { desc = 'Save session' })
+        vim.keymap.set('n', '<leader>qr', require('mini.sessions').select, { desc = 'Restore session' })
 
         require('mini.tabline').setup()
         require('mini.pairs').setup()
@@ -183,9 +189,17 @@ require('lazy').setup({
           filter = {
             event = 'msg_show',
             any = {
-              { find = '%d+L, %d+B' },
               { find = '; after #%d+' },
               { find = '; before #%d+' },
+            },
+          },
+          view = 'mini',
+        },
+        {
+          filter = {
+            event = 'msg_show',
+            any = {
+              { find = '%d+L, %d+B' },
             },
           },
           view = 'notify',
@@ -210,23 +224,6 @@ require('lazy').setup({
       -- 'rcarriga/nvim-notify',
     },
   },
-
-  require 'custom.plugins.treesitter',
-
-  --  Here are some example plugins that I've included in the Kickstart repository.
-  --  Uncomment any of the lines below to enable them (you will need to restart nvim).
-  --
-  -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
-  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
-
-  -- require 'custom.plugins.telescope',
-  require 'custom.plugins.which-key',
-  require 'custom.plugins.snacks',
-  require 'custom.plugins.lsp',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
