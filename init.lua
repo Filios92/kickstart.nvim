@@ -92,6 +92,19 @@ require('lazy').setup({
         -- cursor location to LINE:COLUMN
         ---@diagnostic disable-next-line: duplicate-set-field
         statusline.section_location = function() return '%2l:%-2v' end
+        local sd = MiniStatusline.section_diagnostics
+        ---@diagnostic disable-next-line: duplicate-set-field
+        statusline.section_diagnostics = function()
+          return sd {
+            trunc_width = 75,
+            signs = {
+              ERROR = '󰅚 ',
+              WARN = '󰀪 ',
+              INFO = '󰋽 ',
+              HINT = '󰌶 ',
+            },
+          }
+        end
       end
     end,
   },
