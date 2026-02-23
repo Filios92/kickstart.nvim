@@ -87,6 +87,30 @@ require('lazy').setup({
         -- set use_icons to true if you have a Nerd Font
         statusline.setup { use_icons = vim.g.have_nerd_font }
 
+        local get_formatter = function()
+          local formatters, will_lsp = require('conform').list_formatters_to_run(vim.api.nvim_get_current_buf())
+          local s = ''
+          if formatters and #formatters > 0 then
+            s = s .. ' 󰷈 '
+            for _, formatter in ipairs(formatters) do
+              s = s .. formatter.name
+            end
+          end
+
+          local lsps = require('conform.lsp_format').get_format_clients { bufnr = vim.api.nvim_get_current_buf() }
+          if not vim.tbl_isempty(lsps) then
+            s = s .. ' 󰷈 LSP '
+            for i, sss in ipairs(lsps) do
+              s = s .. sss.name
+            end
+          end
+
+          return s
+        end
+
+        local sf = MiniStatusline.section_fileinfo
+        statusline.section_fileinfo = function() return sf { trunc_width = 120 } .. get_formatter() end
+
         -- You can configure sections in the statusline by overriding their
         -- default behavior. For example, here we set the section for
         -- cursor location to LINE:COLUMN
@@ -169,7 +193,6 @@ require('lazy').setup({
     end,
   },
 
-  -- lazy.nvim
   {
     'folke/noice.nvim',
     -- enabled = false,

@@ -25,9 +25,6 @@ vscmap('n', 'za', 'editor.toggleFold')
 
 -- vscmap({ 'n', 'v' }, 'u', 'undo')
 -- vscmap({ 'n', 'v' }, '<c-r>', 'redo')
---
---
---
 vscmap({ 'n', 'v' }, '<leader>fs', 'editor.action.formatSelection')
 vscmap({ 'n', 'v' }, '<leader>fd', 'editor.action.formatDocument')
 vscmap('n', '<leader>gl', 'gitlens.showGraphPage')
