@@ -43,6 +43,9 @@ return {
       require('catppuccin').setup {
         transparent_background = 'true',
         auto_integrations = true,
+        dim_inactive = {
+          enabled = true,
+        },
       }
       vim.cmd.colorscheme 'catppuccin-macchiato'
     end,

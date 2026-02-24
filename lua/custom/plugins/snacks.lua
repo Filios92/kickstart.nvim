@@ -18,7 +18,7 @@ return { -- folke/snacks
     -- scroll = { enabled = true, animate = { easing = 'outQuint' } },
     statuscolumn = { enabled = true },
     terminal = { enabled = true },
-    toggle = { enabled = true },
+    toggle = { enabled = true, wk_desc = { enabled = '', disabled = '' }, color = { disabled = 'gray' } },
     words = { enabled = true },
     picker = {
       enabled = true,

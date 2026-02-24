@@ -1,3 +1,47 @@
+local function format_whole(opts)
+  require('conform').format(opts or { async = true, lsp_format = 'fallback' }, function(err, did_edit)
+    if not err and did_edit then vim.notify('Code formatted', vim.log.levels.INFO, { title = 'Conform' }) end
+  end)
+end
+
+local function format_changed()
+  local ignore_filetypes = { 'lua' }
+  if vim.tbl_contains(ignore_filetypes, vim.bo.filetype) then
+    vim.notify('range formatting for ' .. vim.bo.filetype .. ' not working properly.')
+    return
+  end
+
+  local hunks = require('gitsigns').get_hunks()
+  if hunks == nil then return false end
+
+  local format = require('conform').format
+
+  local function format_range()
+    if next(hunks) == nil then
+      vim.notify('done formatting git hunks', 'info', { title = 'formatting' })
+      return
+    end
+    local hunk = nil
+    while next(hunks) ~= nil and (hunk == nil or hunk.type == 'delete') do
+      hunk = table.remove(hunks)
+    end
+
+    if hunk ~= nil and hunk.type ~= 'delete' then
+      local start = hunk.added.start
+      local last = start + hunk.added.count
+      -- nvim_buf_get_lines uses zero-based indexing -> subtract from last
+      local last_hunk_line = vim.api.nvim_buf_get_lines(0, last - 2, last - 1, true)[1]
+      local range = { start = { start, 0 }, ['end'] = { last - 1, last_hunk_line:len() } }
+      format({ range = range, async = false, lsp_fallback = true }, function()
+        vim.defer_fn(function() format_range() end, 1)
+      end)
+    end
+  end
+
+  format_range()
+  return true
+end
+
 return {
   { -- LSP Plugins
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
@@ -255,18 +299,10 @@ return {
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
     keys = {
-      {
-        '<leader>cf',
-        function() require('conform').format { async = true, lsp_format = 'fallback' } end,
-        mode = '',
-        desc = 'Format buffer',
-      },
-      {
-        '==',
-        function() require('conform').format { async = true, lsp_format = 'fallback' } end,
-        mode = '',
-        desc = 'Format buffer',
-      },
+      { '<leader>cf', format_whole, mode = '', desc = 'Format buffer' },
+      { '<leader>cF', function() format_whole { formatters = { 'injected' }, timeout_ms = 3000 } end, mode = '', desc = 'Format injected' },
+      { '==', format_whole, mode = '', desc = 'Format buffer' },
+      { '<leader>cn', function() vim.cmd 'ConformInfo' end, desc = 'Conform Info' },
     },
     opts = {
       notify_on_error = false,
@@ -274,15 +310,27 @@ return {
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
-        if disable_filetypes[vim.bo[bufnr].filetype] then
-          return nil
-        else
-          return {
-            timeout_ms = 500,
-            lsp_format = 'fallback',
-          }
+        local ignore_filetypes = { 'sql', 'yaml', 'yml' }
+        if vim.tbl_contains(ignore_filetypes, vim.bo[bufnr].filetype) then return end
+
+        -- Disable with a global or buffer-local variable
+        if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then return end
+
+        -- Disable on node_modules
+        local bufname = vim.api.nvim_buf_get_name(bufnr)
+        if bufname:match '/node_modules/' then return end
+
+        local params = {
+          timeout_ms = 500,
+          lsp_format = 'fallback',
+        }
+
+        -- Only changed hunks
+        if vim.g.autoformat_modified or vim.b[bufnr].autoformat_modified then
+          if format_changed() then return nil end
         end
+
+        return params
       end,
       formatters_by_ft = {
         lua = { 'stylua' },

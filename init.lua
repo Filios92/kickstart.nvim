@@ -108,8 +108,8 @@ require('lazy').setup({
           return s
         end
 
-        local sf = MiniStatusline.section_fileinfo
-        statusline.section_fileinfo = function() return sf { trunc_width = 120 } .. get_formatter() end
+        -- local sf = MiniStatusline.section_fileinfo
+        -- statusline.section_fileinfo = function() return sf { trunc_width = 120 } .. get_formatter() end
 
         -- You can configure sections in the statusline by overriding their
         -- default behavior. For example, here we set the section for

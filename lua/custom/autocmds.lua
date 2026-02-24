@@ -52,6 +52,21 @@ if not vim.g.vscode then
     end,
   })
 
+  vim.api.nvim_create_user_command('FormatDisable', function(opts)
+    if opts.bang then
+      vim.b.disable_autoformat = true
+    else
+      vim.g.disable_autoformat = true
+    end
+    vim.notify('Autoformat disabled' .. (opts.bang and ' (buffer)' or ' (global)'), vim.log.levels.WARN)
+  end, { desc = 'Disable autoformat-on-save', bang = true })
+
+  vim.api.nvim_create_user_command('FormatEnable', function()
+    vim.b.disable_autoformat = false
+    vim.g.disable_autoformat = false
+    vim.notify('Autoformat enabled', vim.log.levels.INFO)
+  end, { desc = 'Re-enable autoformat-on-save' })
+
   -- Snacks toggle
   vim.api.nvim_create_autocmd('User', {
     pattern = 'VeryLazy',
@@ -73,6 +88,33 @@ if not vim.g.vscode then
       Snacks.toggle.profiler_highlights():map '<leader>dph'
       Snacks.toggle.zoom():map('<leader>wm'):map '<leader>uZ'
       Snacks.toggle.zen():map '<leader>uz'
+      Snacks.toggle
+        .new({
+          id = 'autoformat_buffer',
+          name = 'Autoformat for buffer',
+          get = function() return not vim.b.disable_autoformat end,
+          set = function(state) vim.b.disable_autoformat = not vim.b.disable_autoformat end,
+        })
+        :map '<leader>ufb'
+      Snacks.toggle
+        .new({
+          id = 'autoformat',
+          name = 'Autoformat',
+          get = function() return not vim.g.disable_autoformat end,
+          set = function(state) vim.g.disable_autoformat = not vim.g.disable_autoformat end,
+        })
+        :map '<leader>ufg'
+      Snacks.toggle
+        .new({
+          id = 'autoformat_modified',
+          name = 'Autoformat modified',
+          get = function() return vim.g.autoformat_modified end,
+          set = function(state) vim.g.autoformat_modified = not vim.g.autoformat_modified end,
+        })
+        :map '<leader>ufm'
+
+      require('which-key').add { { '<leader>uf', group = 'Autoformat' } }
+      vim.g.autoformat_modified = true
     end,
   })
 end
