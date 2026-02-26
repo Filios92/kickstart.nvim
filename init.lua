@@ -100,7 +100,7 @@ require('lazy').setup({
           local lsps = require('conform.lsp_format').get_format_clients { bufnr = vim.api.nvim_get_current_buf() }
           if not vim.tbl_isempty(lsps) then
             s = s .. ' 󰷈 LSP '
-            for i, sss in ipairs(lsps) do
+            for _, sss in ipairs(lsps) do
               s = s .. sss.name
             end
           end

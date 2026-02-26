@@ -75,6 +75,11 @@ return { -- Useful plugin to show you pending keybinds.
           desc = 'Window Hydra Mode (which-key)',
         },
       },
+      {
+        '<leader>d',
+        vim.diagnostic.open_float,
+        desc = 'Show Diagnostic Hover',
+      },
     },
     triggers = {
       -- { '<auto>', mode = 'nixsotc' },

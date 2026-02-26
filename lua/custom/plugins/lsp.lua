@@ -176,13 +176,51 @@ return {
           --
           -- This may be unwanted, since they displace some of your code
           if client and client:supports_method('textDocument/inlayHint', event.buf) then
-            map('<leader>th', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }) end, '[T]oggle Inlay [H]ints')
+            Snacks.toggle.inlay_hints():map '<leader>uh'
+            Snacks.toggle
+              .new({
+                id = 'inlay_hints_g',
+                name = 'Inlay Hints Global',
+                get = function() return vim.lsp.inlay_hint.is_enabled() end,
+                set = function(state) vim.lsp.inlay_hint.enable(state) end,
+              })
+              :map '<leader>uH'
           end
         end,
       })
 
       -- Diagnostic Config
       -- See :help vim.diagnostic.Opts
+      Diagnostic_config_vlines = {
+        current_line = true,
+        format = function(diagnostic)
+          local diagnostic_message = {
+            [vim.diagnostic.severity.ERROR] = diagnostic.message,
+            [vim.diagnostic.severity.WARN] = diagnostic.message,
+            [vim.diagnostic.severity.INFO] = diagnostic.message,
+            [vim.diagnostic.severity.HINT] = diagnostic.message,
+          }
+          return diagnostic_message[diagnostic.severity]
+        end,
+      }
+
+      Diagnostic_config_vtext = {
+        -- current_line = true,
+        source = 'if_many',
+        -- virt_text_pos = 'eol_right_align',
+        spacing = 4,
+        prefix = '●',
+        format = function(diagnostic)
+          local diagnostic_message = {
+            [vim.diagnostic.severity.ERROR] = diagnostic.message,
+            -- [vim.diagnostic.severity.WARN] = diagnostic.message,
+            -- [vim.diagnostic.severity.INFO] = diagnostic.message,
+            -- [vim.diagnostic.severity.HINT] = diagnostic.message,
+          }
+          return diagnostic_message[diagnostic.severity]
+        end,
+      }
+
       vim.diagnostic.config {
         severity_sort = true,
         float = { source = 'if_many' },
@@ -194,20 +232,15 @@ return {
             [vim.diagnostic.severity.INFO] = '󰋽 ',
             [vim.diagnostic.severity.HINT] = '󰌶 ',
           },
+          numhl = {
+            [vim.diagnostic.severity.ERROR] = 'DiagnosticSignError',
+            [vim.diagnostic.severity.WARN] = 'DiagnosticSignWarn',
+            [vim.diagnostic.severity.INFO] = 'DiagnosticSignInfo',
+            [vim.diagnostic.severity.HINT] = 'DiagnosticSignHint',
+          },
         } or {},
-        virtual_text = {
-          source = 'if_many',
-          spacing = 2,
-          format = function(diagnostic)
-            local diagnostic_message = {
-              [vim.diagnostic.severity.ERROR] = diagnostic.message,
-              [vim.diagnostic.severity.WARN] = diagnostic.message,
-              [vim.diagnostic.severity.INFO] = diagnostic.message,
-              [vim.diagnostic.severity.HINT] = diagnostic.message,
-            }
-            return diagnostic_message[diagnostic.severity]
-          end,
-        },
+        virtual_text = Diagnostic_config_vtext,
+        -- virtual_lines = Diagnostic_config_vlines,
       }
 
       -- LSP servers and clients are able to communicate to each other what features they support.

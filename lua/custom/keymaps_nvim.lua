@@ -134,7 +134,7 @@ map('n', '<leader>qq', '<cmd>q<cr>', { desc = 'Quit' })
 -- DEVELOPMENT TOOLS
 -- ═══════════════════════════════════════════════════════════
 -- Diagnostic keymaps
--- map('n', '<leader>x', vim.diagnostic.setloclist, { desc = 'Open diagnostic' })
+map('n', '<leader>xx', vim.diagnostic.setloclist, { desc = 'Open diagnostic' })
 
 -- Quickfix and location lists
 map('n', '<leader>xl', function()

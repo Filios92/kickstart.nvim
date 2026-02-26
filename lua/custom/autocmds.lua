@@ -59,7 +59,7 @@ if not vim.g.vscode then
       Snacks.toggle.option('spell', { name = 'Spelling' }):map '<leader>us'
       Snacks.toggle.option('wrap', { name = 'Wrap' }):map '<leader>uw'
       Snacks.toggle.option('relativenumber', { name = 'Relative Number' }):map '<leader>uL'
-      Snacks.toggle.diagnostics():map '<leader>ud'
+      Snacks.toggle.diagnostics():map '<leader>udD'
       Snacks.toggle.line_number():map '<leader>ul'
       Snacks.toggle.option('conceallevel', { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2, name = 'Conceal Level' }):map '<leader>uc'
       Snacks.toggle.option('showtabline', { off = 0, on = vim.o.showtabline > 0 and vim.o.showtabline or 2, name = 'Tabline' }):map '<leader>uA'
@@ -78,7 +78,7 @@ if not vim.g.vscode then
           id = 'autoformat_buffer',
           name = 'Autoformat for buffer',
           get = function() return not vim.b.disable_autoformat end,
-          set = function(state) vim.b.disable_autoformat = not vim.b.disable_autoformat end,
+          set = function() vim.b.disable_autoformat = not vim.b.disable_autoformat end,
         })
         :map '<leader>ufb'
       Snacks.toggle
@@ -86,7 +86,7 @@ if not vim.g.vscode then
           id = 'autoformat',
           name = 'Autoformat',
           get = function() return not vim.g.disable_autoformat end,
-          set = function(state) vim.g.disable_autoformat = not vim.g.disable_autoformat end,
+          set = function() vim.g.disable_autoformat = not vim.g.disable_autoformat end,
         })
         :map '<leader>ufg'
       Snacks.toggle
@@ -94,9 +94,25 @@ if not vim.g.vscode then
           id = 'autoformat_modified',
           name = 'Autoformat modified',
           get = function() return vim.g.autoformat_modified end,
-          set = function(state) vim.g.autoformat_modified = not vim.g.autoformat_modified end,
+          set = function() vim.g.autoformat_modified = not vim.g.autoformat_modified end,
         })
         :map '<leader>ufm'
+      Snacks.toggle
+        .new({
+          id = 'diagnostics_vtext',
+          name = 'Diagnostics V Text',
+          get = function() return vim.diagnostic.config().virtual_text ~= false end,
+          set = function(state) vim.diagnostic.config { virtual_text = state and Diagnostic_config_vtext or false } end,
+        })
+        :map '<leader>udt'
+      Snacks.toggle
+        .new({
+          id = 'diagnostics_vlines',
+          name = 'Diagnostics V Lines',
+          get = function() return vim.diagnostic.config().virtual_lines ~= false end,
+          set = function(state) vim.diagnostic.config { virtual_lines = state and Diagnostic_config_vlines or false } end,
+        })
+        :map '<leader>udl'
 
       require('which-key').add { { '<leader>uf', group = 'Autoformat' } }
       vim.g.autoformat_modified = true
