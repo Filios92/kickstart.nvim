@@ -31,7 +31,7 @@ return old_master_version
       branch = 'master',
       -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
       opts = {
-        ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+        ensure_installed = { 'bash', 'c', 'diff', 'html', 'go', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
         -- Autoinstall languages that are not installed
         auto_install = true,
         highlight = {
@@ -68,7 +68,7 @@ return old_master_version
     branch = 'main',
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     config = function()
-      local filetypes = { 'bash', 'c', 'cpp', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+      local filetypes = { 'bash', 'c', 'cpp', 'diff', 'html', 'lua', 'go', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
       -- require('nvim-treesitter').setup {}
       local t = require 'nvim-treesitter'
       require('nvim-treesitter').install(filetypes)

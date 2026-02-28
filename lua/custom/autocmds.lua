@@ -30,6 +30,7 @@ if not vim.g.vscode then
     group = augroup 'wrap_spell',
     pattern = { 'text', 'plaintex', 'typst', 'gitcommit', 'markdown' },
     callback = function()
+      if vim.o.filetype == 'markdown' and vim.api.nvim_win_get_config(0).zindex then return end
       vim.opt_local.wrap = true
       vim.opt_local.spell = true
     end,
