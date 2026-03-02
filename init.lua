@@ -35,7 +35,7 @@ require('lazy').setup({
   require 'custom.plugins.snacks',
   require 'custom.plugins.lsp',
 
-  { 'NMAC427/guess-indent.nvim', opts = {} },
+  { 'NMAC427/guess-indent.nvim', cond = not vim.g.vscode, opts = {} },
 
   { -- Collection of various small independent plugins/modules
     'nvim-mini/mini.nvim',
@@ -152,6 +152,7 @@ require('lazy').setup({
   {
     'folke/flash.nvim',
     -- enabled = false,
+    cond = not vim.g.vscode,
     event = 'VeryLazy',
     ---@type Flash.Config
     opts = {

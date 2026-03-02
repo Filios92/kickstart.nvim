@@ -68,17 +68,19 @@ vim.o.signcolumn = 'yes' -- Keep signcolumn on by default
 vim.o.mouse = 'a' -- Enable mouse mode
 vim.o.showmode = vim.g.vscode and true or false -- Don't show the mode, already in the status line
 vim.o.timeoutlen = 300 -- Decrease mapped sequence wait time
-vim.o.winborder = 'bold'
--- vim.o.ttimeoutlen = 300 -- Key code timeout
-vim.o.linebreak = true -- Break lines at nice words
-vim.o.breakindent = true -- Enable break indent
-vim.o.inccommand = 'split' -- Preview substitutions live, as you type!
-vim.o.splitright = true
-vim.o.splitbelow = true
--- vim.o.splitkeep = 'screen'
+if not vim.g.vscode then
+  vim.o.winborder = 'bold'
+  -- vim.o.ttimeoutlen = 300 -- Key code timeout
+  vim.o.linebreak = true -- Break lines at nice words
+  vim.o.breakindent = true -- Enable break indent
+  vim.o.inccommand = 'split' -- Preview substitutions live, as you type!
+  vim.o.splitright = true
+  vim.o.splitbelow = true
+  -- vim.o.splitkeep = 'screen'
 
--- [ Performance settings ]
-vim.o.updatetime = 250 -- Decrease update time
-vim.o.synmaxcol = 300 -- Syntax hl column limit, prevent freeze on minified files
--- vim.o.redrawtime = 10000 -- Over this -> disable hlsearch, syntax etc.
--- vim.o.maxmempattern = 20000 -- Memory limit as above
+  -- [ Performance settings ]
+  vim.o.updatetime = 250 -- Decrease update time
+  vim.o.synmaxcol = 300 -- Syntax hl column limit, prevent freeze on minified files
+  -- vim.o.redrawtime = 10000 -- Over this -> disable hlsearch, syntax etc.
+  -- vim.o.maxmempattern = 20000 -- Memory limit as above
+end
