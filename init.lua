@@ -35,6 +35,19 @@ require('lazy').setup({
   require 'custom.plugins.snacks',
   require 'custom.plugins.lsp',
 
+  {
+    'CopilotC-Nvim/CopilotChat.nvim',
+    cond = not vim.g.vscode,
+    dependencies = {
+      { 'github/copilot.vim' },
+      { 'nvim-lua/plenary.nvim', branch = 'master' },
+    },
+    build = 'make tiktoken',
+    opts = {
+      -- See Configuration section for options
+    },
+  },
+
   { 'NMAC427/guess-indent.nvim', cond = not vim.g.vscode, opts = {} },
 
   { -- Collection of various small independent plugins/modules
