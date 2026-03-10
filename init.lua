@@ -34,6 +34,7 @@ require('lazy').setup({
   require 'custom.plugins.which-key',
   require 'custom.plugins.snacks',
   require 'custom.plugins.lsp',
+  require 'custom.plugins.dap',
 
   {
     'CopilotC-Nvim/CopilotChat.nvim',
