@@ -45,7 +45,24 @@ require('lazy').setup({
     },
     build = 'make tiktoken',
     opts = {
-      -- See Configuration section for options
+      window = {
+        --   layout = 'float',
+        --   width = 80, -- Fixed width in columns
+        --   height = 20, -- Fixed height in rows
+        --   border = 'rounded', -- 'single', 'double', 'rounded', 'solid'
+        --   title = '🤖 AI Assistant',
+        --   zindex = 100, -- Ensure window stays on top
+      },
+      highlight_headers = false,
+      separator = '━━',
+      error_header = '> [!ERROR] Error',
+      headers = {
+        user = '👤 You',
+        assistant = '🤖 Copilot',
+        tool = '🔧 Tool',
+      },
+      auto_fold = true,
+      -- auto_insert_mode = true,
     },
     keys = {
       { '<leader>zc', ':CopilotChat<CR>', mode = 'n', desc = 'Chat with Copilot' },
@@ -295,6 +312,7 @@ require('lazy').setup({
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {
+      file_types = { 'markdown', 'copilot-chat' },
       code = {
         border = 'thin',
         inline = false,
