@@ -38,6 +38,14 @@ if not vim.g.vscode then
   -- Sets how neovim will display certain whitespace characters in the editor.
   vim.o.list = true
   vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣', extends = '↦' }
+  vim.opt.fillchars = {
+    foldopen = '',
+    foldclose = '',
+    fold = ' ',
+    foldsep = ' ',
+    diff = '╱',
+    eob = ' ',
+  }
   vim.o.showbreak = '↳'
 
   vim.o.confirm = true -- Confirm dialog on unsaved changes

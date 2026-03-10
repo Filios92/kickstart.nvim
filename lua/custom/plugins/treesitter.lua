@@ -69,7 +69,7 @@ return old_master_version
       branch = 'main',
       -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
       config = function()
-        local filetypes = { 'bash', 'c', 'cpp', 'diff', 'html', 'lua', 'go', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+        local filetypes = { 'bash', 'c', 'cpp', 'copilot-chat', 'diff', 'html', 'lua', 'go', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
         -- require('nvim-treesitter').setup {}
         local t = require 'nvim-treesitter'
         require('nvim-treesitter').install(filetypes)
