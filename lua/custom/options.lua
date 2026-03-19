@@ -46,7 +46,7 @@ if not vim.g.vscode then
     diff = '╱',
     eob = ' ',
   }
-  vim.o.showbreak = '↳'
+  -- vim.o.showbreak = '↳'
 
   vim.o.confirm = true -- Confirm dialog on unsaved changes
 

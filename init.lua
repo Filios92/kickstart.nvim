@@ -36,11 +36,11 @@ require('lazy').setup({
   require 'custom.plugins.lsp',
   require 'custom.plugins.dap',
 
+  { 'github/copilot.vim', cond = not vim.g.vscode },
   {
     'CopilotC-Nvim/CopilotChat.nvim',
     cond = not vim.g.vscode,
     dependencies = {
-      { 'github/copilot.vim' },
       { 'nvim-lua/plenary.nvim', branch = 'master' },
     },
     build = 'make tiktoken',
@@ -197,7 +197,7 @@ require('lazy').setup({
     event = 'VeryLazy',
     ---@type Flash.Config
     opts = {
-      modes = { search = { enabled = true } },
+      modes = { search = { enabled = false } },
     },
     keys = {
       { '<leader>fs', mode = { 'n', 'x', 'o' }, function() require('flash').jump() end, desc = 'Flash' },
