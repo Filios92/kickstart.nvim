@@ -60,7 +60,38 @@ end
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
+vim.schedule(function()
+  -- if vim.env.SSH_TTY then
+  --   vim.g.clipboard = 'osc52'
+  -- else
+  -- vim.o.clipboard = 'unnamedplus'
+  -- end
+  -- https://github.com/neovim/neovim/issues/28611#issuecomment-2147744670
+  function my_paste(reg)
+    return function(lines)
+      local content = vim.fn.getreg '"'
+      return vim.split(content, '\n')
+    end
+  end
+
+  if os.getenv 'SSH_TTY' == nil then
+    vim.o.clipboard = 'unnamedplus'
+  else
+    vim.o.clipboard = 'unnamedplus'
+    vim.g.clipboard = {
+      name = 'OSC 52',
+      copy = {
+        ['+'] = require('vim.ui.clipboard.osc52').copy '+',
+        ['*'] = require('vim.ui.clipboard.osc52').copy '*',
+      },
+      paste = {
+        ['+'] = my_paste '+',
+        ['*'] = my_paste '*',
+      },
+    }
+  end
+end)
+
 -- vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { silent = true, noremap = true })
 -- vim.keymap.set({ 'n', 'v' }, '<leader>Y', '<cmd>let @+=@"<cr>', { silent = true, noremap = true })
 -- vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p', { silent = true, noremap = true })
