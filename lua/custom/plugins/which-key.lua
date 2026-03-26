@@ -16,6 +16,7 @@ return { -- Useful plugin to show you pending keybinds.
       -- { '<leader>D', group = 'Diffview', icon = { icon = '', color = 'orange' } },
       { '<leader>f', group = 'Find', mode = { 'n', 'v' } },
       { '<leader>g', group = 'Git', icon = { icon = '' } },
+      { '<leader>gd', group = 'Diff', icon = { icon = '', color = 'orange' } },
       -- { '<leader>p', group = 'Yanky', icon = { icon = '󰃮 ', color = 'yellow' } },
       { '<leader>s', group = 'Search', mode = { 'n', 'v' } },
       { '<leader>t', group = 'Toggle' },

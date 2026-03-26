@@ -55,18 +55,17 @@ return {
         map('v', '<leader>hs', function() gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' } end, { desc = 'git [s]tage hunk' })
         map('v', '<leader>hr', function() gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' } end, { desc = 'git [r]eset hunk' })
         -- normal mode
-        map('n', '<leader>hs', gitsigns.stage_hunk, { desc = 'stage hunk' })
-        map('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'reset hunk' })
+        map('n', '<leader>hs', gitsigns.stage_hunk, { desc = 'Stage hunk' })
+        map('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'Reset hunk' })
         map('n', '<leader>hS', gitsigns.stage_buffer, { desc = 'Stage buffer' })
         map('n', '<leader>hu', gitsigns.stage_hunk, { desc = 'Undo stage hunk' })
         map('n', '<leader>hR', gitsigns.reset_buffer, { desc = 'Reset buffer' })
-        map('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'preview hunk' })
+        map('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'Preview hunk' })
         map('n', '<leader>hP', gitsigns.preview_hunk_inline, { desc = 'Preview hunk inline' })
-        -- map('n', '<leader>hb', gitsigns.blame_line, { desc = '[b]lame line' })
         map('n', '<leader>hb', function() gitsigns.blame_line { full = true } end, { desc = 'blame line' })
         map('n', '<leader>hB', gitsigns.blame, { desc = 'Blame buffer' })
         map('n', '<leader>hd', gitsigns.diffthis, { desc = 'diff against index' })
-        map('n', '<leader>hD', function() gitsigns.diffthis '@' end, { desc = 'Diff against last commit' })
+        map('n', '<leader>hD', function() gitsigns.diffthis '~' end, { desc = 'Diff against last commit' })
         -- map('n', '<leader>hD', function() gitsigns.diffthis '~' end, { desc = '[D]iff against last commit' })
         -- Toggles
         map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = '[T]oggle git show [b]lame line' })
@@ -91,24 +90,24 @@ return {
           },
         },
       }
-      vim.keymap.set('n', '<leader>D', '<Cmd>DiffviewOpen<CR>', { desc = 'Diff: git status' })
+      vim.keymap.set('n', '<leader>gdD', '<Cmd>DiffviewOpen<CR>', { desc = 'DiffView: git status' })
       -- File history views
-      vim.keymap.set('n', '<leader>gv', '<Cmd>DiffviewFileHistory<CR>', { desc = 'Diff: repo history' })
-      vim.keymap.set('n', '<leader>gV', '<Cmd>DiffviewFileHistory %<CR>', { desc = 'Diff: current file history' })
+      vim.keymap.set('n', '<leader>gv', '<Cmd>DiffviewFileHistory<CR>', { desc = 'DiffView: repo history' })
+      vim.keymap.set('n', '<leader>gV', '<Cmd>DiffviewFileHistory %<CR>', { desc = 'DiffView: current file history' })
       -- Visual mode: history of selected lines
-      vim.keymap.set('v', '<leader>gv', ":'<,'>DiffviewFileHistory<CR>", { desc = 'Diff: selection history' })
+      vim.keymap.set('v', '<leader>gv', ":'<,'>DiffviewFileHistory<CR>", { desc = 'DiffView: selection history' })
       -- Compare with revisions (prompts)
       vim.keymap.set('n', '<leader>gc', function()
         vim.ui.input({ prompt = 'Compare revision (ex. main, HEAD~5, main..HEAD): ' }, function(refs)
           if refs and refs:match '%S' then vim.cmd(('DiffviewOpen %s'):format(refs)) end
         end)
-      end, { desc = 'Diff: compare revisions' })
+      end, { desc = 'DiffView: compare revisions' })
 
       vim.keymap.set('n', '<leader>gC', function()
         vim.ui.input({ prompt = 'File history range (ex. HEAD~1, main..HEAD): ' }, function(range)
           if range and range:match '%S' then vim.cmd(('DiffviewFileHistory --range=%s %%'):format(range)) end
         end)
-      end, { desc = 'Diff: file history with range' })
+      end, { desc = 'DiffView: file history with range' })
 
       -- Compare two arbitrary files
       vim.keymap.set('n', '<leader>g2', function()
@@ -118,7 +117,7 @@ return {
             if file2 and file2:match '%S' then vim.cmd(('tabnew | e %s | diffthis | vsplit %s | diffthis'):format(file1, file2)) end
           end)
         end)
-      end, { desc = 'Diff: Compare 2 files' })
+      end, { desc = 'DiffView: Compare 2 files' })
     end,
   },
 }

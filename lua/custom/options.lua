@@ -34,6 +34,7 @@ if not vim.g.vscode then
   -- vim.opt.writebackup = false -- Don't create backup before writing
   vim.opt.swapfile = false -- Don't create swap files
   vim.o.undofile = true -- Save undo history
+  -- vim.g.editorconfig = false
 
   -- Sets how neovim will display certain whitespace characters in the editor.
   vim.o.list = true

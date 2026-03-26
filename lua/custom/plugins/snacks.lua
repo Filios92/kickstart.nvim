@@ -48,13 +48,8 @@ return { -- folke/snacks
   },
 
   keys = {
-    -- { '<leader><space>', function() Snacks.picker.smart() end, desc = 'Smart Find Files' },
-    -- { '<leader>,', function() Snacks.picker.buffers() end, desc = 'Buffers' },
-    -- { '<leader>e', function() Snacks.explorer() end, desc = 'File Explorer' },
-    { '<leader>gg', function() Snacks.lazygit() end, desc = 'Lazygit' },
-
     -- Top Pickers & Explorer
-    { '<leader><space>', function() Snacks.picker.smart() end, desc = 'Smart Find Files' },
+    { '<leader><space>', function() Snacks.picker.smart { filter = { cwd = true } } end, desc = 'Smart Find Files' },
     { '<leader>,', function() Snacks.picker.buffers() end, desc = 'Buffers' },
     { '<leader>/', function() Snacks.picker.grep() end, desc = 'Grep' },
     { '<leader>:', function() Snacks.picker.command_history() end, desc = 'Command History' },
@@ -67,17 +62,18 @@ return { -- folke/snacks
     { '<leader>ff', function() Snacks.picker.files() end, desc = 'Find Files' },
     { '<leader>fg', function() Snacks.picker.git_files() end, desc = 'Find Git Files' },
     { '<leader>fp', function() Snacks.picker.projects() end, desc = 'Projects' },
-    { '<leader>fr', function() Snacks.picker.recent() end, desc = 'Recent' },
+    { '<leader>fr', function() Snacks.picker.recent { filter = { cwd = true } } end, desc = 'Recent' },
 
     -- git
-    { '<leader>gb', function() Snacks.picker.git_branches() end, desc = 'Git Branches' },
-    { '<leader>gl', function() Snacks.picker.git_log() end, desc = 'Git Log' },
-    { '<leader>gL', function() Snacks.picker.git_log_line() end, desc = 'Git Log Line' },
-    { '<leader>gs', function() Snacks.picker.git_status() end, desc = 'Git Status' },
-    { '<leader>gS', function() Snacks.picker.git_stash() end, desc = 'Git Stash' },
-    { '<leader>gd', function() Snacks.picker.git_diff() end, desc = 'Git Diff (Hunks)' },
-    { '<leader>gD', function() Snacks.picker.git_diff { base = 'origin' } end, desc = 'Git Diff (origin)' },
-    { '<leader>gf', function() Snacks.picker.git_log_file() end, desc = 'Git Log File' },
+    { '<leader>gb', function() Snacks.picker.git_branches() end, desc = 'Branches' },
+    { '<leader>gl', function() Snacks.picker.git_log() end, desc = 'Log' },
+    { '<leader>gL', function() Snacks.picker.git_log_line() end, desc = 'Log Line' },
+    { '<leader>gs', function() Snacks.picker.git_status() end, desc = 'Status' },
+    { '<leader>gS', function() Snacks.picker.git_stash() end, desc = 'Stash' },
+    { '<leader>gdd', function() Snacks.picker.git_diff() end, desc = 'Diff (Hunks)' },
+    { '<leader>gdo', function() Snacks.picker.git_diff { base = 'origin' } end, desc = 'Git Diff (origin)' },
+    { '<leader>gf', function() Snacks.picker.git_log_file() end, desc = 'Log File' },
+    { '<leader>gg', function() Snacks.lazygit() end, desc = 'Lazygit' },
 
     -- Grep
     { '<leader>sb', function() Snacks.picker.lines() end, desc = 'Buffer Lines' },
@@ -137,7 +133,6 @@ return { -- folke/snacks
     -- { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
     { '<leader>cR', function() Snacks.rename.rename_file() end, desc = 'Rename File' },
     -- { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" } },
-    -- { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
     -- { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
     -- { "<c-_>",      function() Snacks.terminal() end, desc = "which_key_ignore" },
     -- { "]]",         function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference", mode = { "n", "t" } },
