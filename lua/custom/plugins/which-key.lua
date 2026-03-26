@@ -12,6 +12,7 @@ return { -- Useful plugin to show you pending keybinds.
     -- Document existing key chains
     spec = {
       { '<leader>c', group = 'Code', mode = { 'n', 'v' } },
+      { '<leader>z', group = 'Copilot', mode = { 'n', 'v' }, icon = { icon = ' ', color = 'orange' } },
       -- { '<leader>D', group = 'Diffview', icon = { icon = '', color = 'orange' } },
       { '<leader>f', group = 'Find', mode = { 'n', 'v' } },
       { '<leader>g', group = 'Git', icon = { icon = '' } },
