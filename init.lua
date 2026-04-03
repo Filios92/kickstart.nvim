@@ -53,13 +53,13 @@ require('lazy').setup({
         --   title = '🤖 AI Assistant',
         --   zindex = 100, -- Ensure window stays on top
       },
-      highlight_headers = false,
+      -- highlight_headers = false,
       separator = '━━',
       error_header = '> [!ERROR] Error',
       headers = {
-        user = '👤 You',
-        assistant = '🤖 Copilot',
-        tool = '🔧 Tool',
+        user = '- 👤 You',
+        assistant = '- 🤖 Copilot',
+        tool = '- 🔧 Tool',
       },
       auto_fold = true,
       -- auto_insert_mode = true,
@@ -73,6 +73,26 @@ require('lazy').setup({
       { '<leader>zd', ':CopilotChatDocs<CR>', mode = 'v', desc = 'Generate Docs' },
       { '<leader>zt', ':CopilotChatTests<CR>', mode = 'v', desc = 'Generate Tests' },
       { '<leader>zm', ':CopilotChatCommit<CR>', mode = { 'n', 'v' }, desc = 'Generate Commit Message' },
+    },
+  },
+
+  {
+    'olimorris/codecompanion.nvim',
+    cond = not vim.g.vscode,
+    version = '^19.0.0',
+    opts = {
+      interactions = {
+        chat = {
+          adapter = {
+            name = 'copilot',
+            model = 'gpt-5.1-codex',
+          },
+        },
+      },
+    },
+    dependencies = {
+      { 'nvim-lua/plenary.nvim', branch = 'master' },
+      'nvim-treesitter/nvim-treesitter',
     },
   },
 
@@ -243,7 +263,7 @@ require('lazy').setup({
     opts = {
       -- add any options here
       cmdline = {
-        view = 'cmdline',
+        view = 'cmdline_popup',
       },
       lsp = {
         -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
@@ -286,7 +306,7 @@ require('lazy').setup({
 
       -- you can enable a preset for easier configuration
       presets = {
-        bottom_search = true, -- use a classic bottom cmdline for search
+        -- bottom_search = true, -- use a classic bottom cmdline for search
         command_palette = true, -- position the cmdline and popupmenu together
         long_message_to_split = true, -- long messages will be sent to a split
         inc_rename = false, -- enables an input dialog for inc-rename.nvim
@@ -312,7 +332,7 @@ require('lazy').setup({
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {
-      file_types = { 'markdown', 'copilot-chat' },
+      file_types = { 'markdown', 'copilot-chat', 'codecompanion' },
       code = {
         border = 'thin',
         inline = false,
