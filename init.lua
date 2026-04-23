@@ -85,7 +85,7 @@ require('lazy').setup({
         chat = {
           adapter = {
             name = 'copilot',
-            model = 'gpt-5.1-codex',
+            model = 'gpt-5.3-codex',
           },
         },
       },

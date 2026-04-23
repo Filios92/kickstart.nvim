@@ -129,6 +129,44 @@ if not vim.g.vscode then
       vim.g.autoformat_modified = true
     end,
   })
+
+  if os.getenv 'TMUX' then
+    --- wraps message with tmux prefix so that the underlying terminal can interpret it correctly
+    --- needs 'set-option -g allow-passthrough on' in tmux config
+    ---@param content string
+    ---@return string
+    -- local function wrap_tmux(content) return string.format('\27Ptmux;\27%s\27\\', content) end
+    -- local function wrap_tmux(content) return string.format('\27Ptmux;\27%s\27\\', content) end
+    -- local function wrap_tmux(content) return '\27Ptmux;\27' .. content .. '\27\\' end
+    local function wrap_tmux(content) return '\27Ptmux;\27' .. content .. '\27\\' end
+    -- local function wrap_tmux(content) return string.format('\033Ptmux;\033%s\033\\', content) end
+
+    local original_ui_send = vim.api.nvim_ui_send
+
+    ---@diagnostic disable-next-line: duplicate-set-field
+    vim.api.nvim_ui_send =
+      ---@param content string
+      function(content)
+        -- vim.print(content)
+        -- vim.print(wrap_tmux(content))
+        original_ui_send(wrap_tmux(content))
+      end
+  end
+
+  vim.api.nvim_create_autocmd('LspProgress', {
+    callback = function(ev)
+      -- vim.print(ev.data)
+      local value = ev.data.params.value
+      vim.api.nvim_echo({ { value.message or 'done' } }, false, {
+        id = 'lsp.' .. ev.data.client_id,
+        kind = 'progress',
+        source = 'vim.lsp',
+        title = value.title,
+        status = value.kind ~= 'end' and 'running' or 'success',
+        percent = value.percentage,
+      })
+    end,
+  })
 end
 
 -- Highlight when yanking (copying) text

@@ -121,6 +121,8 @@ return { -- folke/snacks
     { '<leader>ft', function() Snacks.terminal(nil, { cwd = vim.fn.getcwd() }) end, desc = 'Terminal (Root Dir)', mode = 'n' },
     -- { '<C-:>', function() Snacks.terminal(nil, { cwd = vim.fn.getcwd() }) end, desc = 'Terminal (Root Dir)', mode = 'n' },
     { '<C-;>', function() Snacks.terminal() end, desc = 'Toggle Terminal' },
+    { "<C-'>", function() Snacks.terminal() end, desc = 'Toggle Terminal' },
+    { '♡', function() Snacks.terminal() end, desc = 'Toggle Terminal' },
     { '<F20>', function() Snacks.terminal() end, desc = 'which_key_ignore' },
     -- { '<c-_>', function() Snacks.terminal(nil, { cwd = vim.fn.getcwd() }) end, desc = 'which_key_ignore', mode = 'n' },
 

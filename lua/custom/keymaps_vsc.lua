@@ -41,6 +41,7 @@ vim.keymap.set({ 'n', 'x', 'i' }, '<C-d>', function() require('vscode-multi-curs
 -- gitsigns
 vscmap('n', '<leader>hp', 'editor.action.dirtydiff.next')
 -- vscmap('n', '<leader>hr', 'git.revertChange')
+vscmap('n', '<leader>hR', 'git.clean')
 vscmap('n', '<leader>hr', 'git.revertSelectedRanges')
 vscmap('v', '<leader>hr', 'git.revertSelectedRanges')
 vscmap('n', '<leader>hs', 'git.diff.stageHunk')

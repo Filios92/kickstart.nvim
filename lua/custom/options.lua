@@ -57,6 +57,8 @@ if not vim.g.vscode then
   vim.o.foldmethod = 'syntax'
 end
 
+if vim.g.vscode then vim.o.cmdheight = 500 end
+
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
@@ -110,7 +112,7 @@ vim.o.showmode = vim.g.vscode and true or false -- Don't show the mode, already 
 vim.o.timeoutlen = 300 -- Decrease mapped sequence wait time
 if not vim.g.vscode then
   vim.o.winborder = 'bold'
-  -- vim.o.ttimeoutlen = 300 -- Key code timeout
+  vim.o.ttimeoutlen = 300 -- Key code timeout
   vim.o.linebreak = true -- Break lines at nice words
   vim.o.breakindent = true -- Enable break indent
   vim.o.inccommand = 'split' -- Preview substitutions live, as you type!
