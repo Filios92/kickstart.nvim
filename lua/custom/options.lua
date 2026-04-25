@@ -126,3 +126,9 @@ if not vim.g.vscode then
   -- vim.o.redrawtime = 10000 -- Over this -> disable hlsearch, syntax etc.
   -- vim.o.maxmempattern = 20000 -- Memory limit as above
 end
+
+vim.filetype.add {
+  extension = {
+    mdc = 'markdown',
+  },
+}
