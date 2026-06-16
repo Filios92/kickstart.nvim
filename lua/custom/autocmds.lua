@@ -33,6 +33,7 @@ if not vim.g.vscode then
       if vim.o.filetype == 'markdown' and vim.api.nvim_win_get_config(0).zindex then return end
       vim.opt_local.wrap = true
       vim.opt_local.spell = true
+      vim.opt_local.spelllang = 'en,pl'
     end,
   })
 

@@ -104,6 +104,9 @@ map('i', '<C-z>', '<C-O>u', opts)
 map({ 'n' }, '<C-_>', ':normal gcc<Cr>', opts)
 map({ 'i' }, '<C-_>', '<C-o>:normal gcc<cr>', opts)
 map('x', '<C-_>', 'gcgv', { remap = true, silent = true })
+map({ 'n' }, '<C-/>', ':normal gcc<Cr>', opts)
+map({ 'i' }, '<C-/>', '<C-o>:normal gcc<cr>', opts)
+map('x', '<C-/>', 'gcgv', { remap = true, silent = true })
 -- map({ 'n' }, '♠', ':normal gcc<Cr>', opts) -- ctrl shift /
 -- map('x', '♠', 'gcgv', { remap = true, silent = true })
 
